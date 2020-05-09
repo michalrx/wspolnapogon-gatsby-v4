@@ -6,13 +6,20 @@ import ReactPaginate from "react-paginate"
 import { Stack, Box, Heading, Text, Grid, Button } from "@chakra-ui/core"
 
 import Layout from "../components/layout"
+import SEO from "../components/seo"
 import { normalizePath } from "../utils/get-url-path"
 
-export default ({ data, pageContext }) => (
+export default ({ data, pageContext }) => {
+  return (
   <Layout>
+    <SEO title="Aktualności" />
     <Stack spacing={5}>
-      {data.allWpPost.nodes.map(page => (
-        <Box key={page.link}>
+      {data.allWpPost.nodes.map(page => {
+        let options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const date = !!page.date ? new Date(page.date) : null;
+        const stringDate = date.toLocaleString('pl-PL', options);
+        return (
+        <Box key={page.slug}>
           <Link to={normalizePath(page.uri)}>
             <Box p={5} shadow="md" borderWidth="1px">
               <Grid templateColumns="1fr 2fr" gap={6}>
@@ -36,16 +43,21 @@ export default ({ data, pageContext }) => (
                       Author: {page.author.name}
                     </Heading>
                   )}
+                  {!!page.date && (
+                    <Heading as="h4" size="sm">
+                      Data: {stringDate}
+                    </Heading>
+                  )}
 
                   <Box>
-                    <Text dangerouslySetInnerHTML={{ __html: page.excerpt }} />
+                    <Text dangerouslySetInnerHTML={{ __html: page.excerpt.replace('https://wspolnapogon.pl','') }} />
                   </Box>
                 </Box>
               </Grid>
             </Box>
           </Link>
         </Box>
-      ))}
+      )})}
     </Stack>
 
     {pageContext && pageContext.totalPages > 1 && (
@@ -61,7 +73,7 @@ export default ({ data, pageContext }) => (
           }
           onPageChange={({ selected }) => {
             const page = selected + 1
-            const path = page === 1 ? `/blog/` : `/blog/${page}/`
+            const path = page === 1 ? `/aktualnosci/` : `/aktualnosci/${page}/`
             navigate(path)
           }}
           disableInitialCallback
@@ -78,13 +90,13 @@ export default ({ data, pageContext }) => (
       </Box>
     )}
   </Layout>
-)
+)}
 
 export const query = graphql`
   fragment Thumbnail on File {
     childImageSharp {
       fluid(maxWidth: 500) {
-        ...GatsbyImageSharpFluid_tracedSVG
+        ...GatsbyImageSharpFluid
       }
     }
   }
@@ -99,6 +111,9 @@ export const query = graphql`
       nodes {
         uri
         title
+        excerpt
+        date
+        slug
         featuredImage {
           remoteFile {
             ...Thumbnail

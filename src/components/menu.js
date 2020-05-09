@@ -6,7 +6,7 @@ import { normalizePath } from "../utils/get-url-path"
 export default () => {
   const { wpMenu } = useStaticQuery(graphql`
     {
-      wpMenu(slug: { eq: "main-menu" }) {
+      wpMenu(slug: { eq: "menu_gatsby" }) {
         name
         menuItems {
           nodes {
@@ -31,7 +31,7 @@ export default () => {
             const path = menuItem?.connectedObject?.uri ?? menuItem.url
 
             return (
-              <Link key={i + menuItem.url} style={{ display: `block` }} to={normalizePath(path)}>
+              <Link key={i + menuItem.url} style={{ display: `block` }} to={normalizePath(path)} activeClassName="active">
                 <Button w="100%" as={Button}>
                   {menuItem.label}
                 </Button>

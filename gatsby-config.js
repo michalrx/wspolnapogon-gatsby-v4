@@ -8,7 +8,13 @@ require("dotenv").config({
 })
 
 module.exports = {
+  siteMetadata: {
+    title: `WspólnaPogoń.pl`,
+    description: `Pogoń Szczecin, King Szczecin, Marina Pogoń`,
+    author: `@michalrx`,
+  },
   plugins: [
+    `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-source-filesystem`,
