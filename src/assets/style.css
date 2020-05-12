@@ -1191,7 +1191,7 @@ body {
 }
 
 header {
-  background: #001c34 url(images/head-bg-FHD.jpg) repeat-x top;
+  /* background: #001c34 url(images/head-bg-FHD.jpg) repeat-x top; */
   height: 214px;
   display: flex;
 }
@@ -1200,4 +1200,5 @@ header .logo {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 214px;
 }

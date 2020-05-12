@@ -95,8 +95,8 @@ export default ({ data, pageContext }) => {
 export const query = graphql`
   fragment Thumbnail on File {
     childImageSharp {
-      fluid(maxWidth: 500) {
-        ...GatsbyImageSharpFluid
+      fluid(quality: 90, maxWidth: 500) {
+        ...GatsbyImageSharpFluid_withWebp
       }
     }
   }
